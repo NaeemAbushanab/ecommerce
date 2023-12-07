@@ -1,52 +1,42 @@
-import React from "react";
+import React, { useContext } from "react";
 import Input from "../../shared/Input";
 import { useFormik } from "formik";
-import { registerSchema } from "../validation/auth";
+import { signinSchema } from "../validation/auth";
 import axios from "axios";
 import { ErrorToast, SuccessToast, WarningToast } from "../../shared/Toast";
-function Register() {
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/User";
+import { jwtDecode } from "jwt-decode";
+function Signin({}) {
+  const navigate = useNavigate();
   const initialValues = {
-    userName: "",
     email: "",
     password: "",
-    image: "",
   };
-
+  const { setUserInfo } = useContext(UserContext);
   const onSubmit = (user) => {
-    const formData = new FormData();
-    formData.append("userName", user.userName);
-    formData.append("email", user.email);
-    formData.append("password", user.password);
-    formData.append("image", user.image);
     axios
-      .post(`https://ecommerce-node4.vercel.app/auth/signup`, formData)
+      .post(`https://ecommerce-node4.vercel.app/auth/signin`, user)
       .then(({ data }) => {
         if (data.message == "success") {
-          SuccessToast(`${data.message}, please go to your email to confirm`);
+          localStorage.setItem("userToken", data.token);
+          SuccessToast("log in sucessfully");
+          setUserInfo(jwtDecode(data.token));
+          navigate("/");
         } else {
           WarningToast(data.message);
         }
       })
       .catch((error) => {
-        ErrorToast(error.response.data.message);
+        ErrorToast(error);
       });
-  };
-  const handleImagePath = (e) => {
-    formik.setFieldValue("image", e.target.files[0]);
   };
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validationSchema: registerSchema,
+    validationSchema: signinSchema,
   });
   const inputs = [
-    {
-      id: "userName",
-      name: "userName",
-      type: "text",
-      title: "User name",
-      value: formik.values.userName,
-    },
     { id: "email", name: "email", type: "email", title: "Email", value: formik.values.email },
     {
       id: "password",
@@ -55,13 +45,6 @@ function Register() {
       title: "Password",
       value: formik.values.password,
     },
-    {
-      id: "image",
-      name: "image",
-      type: "file",
-      title: "Profile Image",
-      onChange: handleImagePath,
-    },
   ];
   const renderInput = () =>
     inputs.map((input, index) => {
@@ -69,7 +52,7 @@ function Register() {
         <Input
           key={index}
           {...input}
-          onChange={input.onChange || formik.handleChange}
+          onChange={formik.handleChange}
           errors={formik.errors}
           onBlur={formik.handleBlur}
           touched={formik.touched}
@@ -79,12 +62,12 @@ function Register() {
 
   return (
     <div className="my-4">
-      <h2>Create account</h2>
-      <form className="form" onSubmit={formik.handleSubmit} encType="mltipart/form-data">
+      <h2>Sign in</h2>
+      <form className="form" onSubmit={formik.handleSubmit}>
         {renderInput()}
         <div className="text-center">
           <button type="submit" className="form-control btn btn-primary" disabled={!formik.isValid}>
-            Create
+            Sign in
           </button>
         </div>
       </form>
@@ -92,4 +75,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Signin;

@@ -2,7 +2,16 @@ import React from "react";
 import { toast } from "react-toastify";
 
 const SuccessToast = (title) => {
-  return 
+  return toast.success(title, {
+    position: "top-right",
+    autoClose: false,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+  });
 };
 
 const ErrorToast = (title) => {
