@@ -1,0 +1,47 @@
+nav {
+  background-color: rgb(248, 249, 250);
+}
+.btn-check:checked + .btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check) + .btn:active {
+  border-color: white !important;
+}
+a {
+  color: black !important;
+}
+nav .navList ul {
+  list-style: none;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+nav .cartIcon {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+nav .cartIcon .cartNumber {
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  color: white;
+  font-weight: 700;
+  transform: translate(-30%, -70%);
+  -webkit-transform: translate(-30%, -70%);
+  -moz-transform: translate(-30%, -70%);
+  -ms-transform: translate(-30%, -70%);
+  -o-transform: translate(-30%, -70%);
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}

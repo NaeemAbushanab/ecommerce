@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import LoadingScreen from "../../shared/loadingScreen/LoadingScreen";
 import EmptyContainer from "../../shared/emptyContainer/EmptyContainer";
 import ProductCard from "./ProductCard";
-import { CartContext } from "../context/Cart";
 
 function Products() {
   const { catID } = useParams();
@@ -28,7 +27,7 @@ function Products() {
     <div className="row">
       {data.map((product) => (
         <div key={product._id} className="col-4">
-          <ProductCard {...product}/>
+          <ProductCard {...product} />
         </div>
       ))}
     </div>

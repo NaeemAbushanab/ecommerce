@@ -11,12 +11,12 @@ import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Link } from "react-router-dom";
 
 function Categories() {
-  let getCategories = () =>
-    axios
-      .get(`${import.meta.env.VITE_API_URL}/categories/active?page=1&limit=10`)
-      .then(({ data }) => {
-        return data;
-      });
+  let getCategories = async () => {
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/categories/active?page=1&limit=10`, {
+      headers: { Authorization: `Tariq__${localStorage.getItem("userToken")}` },
+    });
+    return data.categories;
+  };
   const { data, isLoading } = useQuery("web_categories", getCategories);
   if (isLoading) {
     return <div>Loading....</div>;
@@ -25,16 +25,18 @@ function Categories() {
     <>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar]}
-        spaceBetween={50}
-        slidesPerView={5}
+        spaceBetween={10}
+        slidesPerView={8}
         navigation
         pagination={{ el: ".swiper-pagination", clickable: true }}
       >
-        {data.categories.map((cat) => {
+        {data.map((cat) => {
           return (
             <SwiperSlide key={cat._id}>
               <Link to={`/category/${cat._id}`}>
-                <img src={cat.image.secure_url} alt="img" />
+                <div className="w-75">
+                  <img src={cat.image.secure_url} alt="img" className="img-fluid" />
+                </div>
               </Link>
             </SwiperSlide>
           );

@@ -1,11 +1,19 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import { createContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
 
 const UserContext = createContext(null);
 function UserContextProvider({ children }) {
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfoLocal] = useState(null);
+  const setUserInfo = async (userToken) => {
+    if (userToken == null) {
+      setUserInfoLocal(null);
+    } else {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, {
+        headers: { Authorization: `Tariq__${userToken}` },
+      });
+      setUserInfoLocal(data.user);
+    }
+  };
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
       setUserInfo(localStorage.getItem("userToken"));

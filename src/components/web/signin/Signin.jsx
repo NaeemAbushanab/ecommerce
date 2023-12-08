@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/User";
 import { jwtDecode } from "jwt-decode";
 function Signin({}) {
-  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
   };
+  const navigate = useNavigate();
   const { setUserInfo } = useContext(UserContext);
   const onSubmit = (user) => {
     axios
@@ -20,8 +20,8 @@ function Signin({}) {
       .then(({ data }) => {
         if (data.message == "success") {
           localStorage.setItem("userToken", data.token);
+          setUserInfo(data.token);
           SuccessToast("log in sucessfully");
-          setUserInfo(jwtDecode(data.token));
           navigate("/");
         } else {
           WarningToast(data.message);

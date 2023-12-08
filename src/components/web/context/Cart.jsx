@@ -1,18 +1,20 @@
 import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 import { createContext } from "react";
 import { useQuery } from "react-query";
 
 const CartContext = createContext(null);
 function CartContextProvider({ children }) {
   const userToken = localStorage.getItem("userToken");
+  const [cartItems, setCartItems] = useState(null);
   const getCartItems = async () => {
     const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
       headers: { Authorization: `Tariq__${userToken}` },
     });
-    return data.products;
+    setCartItems(data.products);
   };
-  const cartItems = useQuery("cartItems", getCartItems);
-  const removeItemFromCart = async (productId) => {
+  const removeItemCart = async (productId) => {
     const { data } = await axios.patch(
       `${import.meta.env.VITE_API_URL}/cart/removeItem`,
       { productId },
@@ -20,11 +22,28 @@ function CartContextProvider({ children }) {
         headers: { Authorization: `Tariq__${userToken}` },
       }
     );
+
+    getCartItems();
   };
+  const actionsItemCart = async (productId, quantity) => {
+    if (quantity > 0) {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/cart`,
+        { productId, quantity },
+        {
+          headers: { Authorization: `Tariq__${userToken}` },
+        }
+      );
+      getCartItems();
+    } else {
+      removeItemCart(productId);
+    }
+  };
+  useEffect(() => {
+    getCartItems();
+  }, []);
   return (
-    <CartContext.Provider value={{ cartItems, removeItemFromCart }}>
-      {children}
-    </CartContext.Provider>
+    <CartContext.Provider value={{ cartItems, actionsItemCart }}>{children}</CartContext.Provider>
   );
 }
 export { CartContext, CartContextProvider };

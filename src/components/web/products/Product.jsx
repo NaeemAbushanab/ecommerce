@@ -10,7 +10,7 @@ import { CartContext } from "../context/Cart";
 function Product() {
   const { proID } = useParams();
   let [currImg, setCurrImg] = useState("");
-  const { handleAddToCartContext } = useContext(CartContext);
+  // const { handleAddToCartContext } = useContext(CartContext);
   const getData = () =>
     axios.get(`${import.meta.env.VITE_API_URL}/products/${proID}`).then(({ data }) => {
       setCurrImg(data.product.mainImage.secure_url);
@@ -22,7 +22,7 @@ function Product() {
     setCurrImg(e.target.src);
   };
   const handleAddToCart = () => {
-    handleAddToCartContext(proID);
+    // handleAddToCartContext(proID);
   };
 
   if (isLoading) {

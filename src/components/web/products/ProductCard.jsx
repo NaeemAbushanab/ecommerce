@@ -17,12 +17,9 @@ function ProductCard({
   discount,
   _id,
   number_sellers,
-  cartData,
+  quantity,
 }) {
-  const { handleAddToCartContext } = useContext(CartContext);
-  const handleAddToCart = async (proId) => {
-    const res = await handleAddToCartContext(proId);
-  };
+  const { actionsItemCart } = useContext(CartContext);
   return (
     <div className="card" style={{ width: "18rem" }}>
       <Link to={`/product/${_id}`}>
@@ -34,7 +31,7 @@ function ProductCard({
       <div className="card-body text-center">
         <div className="text-start d-flex justify-content-between">
           <button
-            onClick={() => handleAddToCart(_id)}
+            onClick={() => actionsItemCart(_id, 1)}
             className="btn btn-primary d-flex justify-content-center align-items-center"
           >
             <FontAwesomeIcon icon={faPlus} />
