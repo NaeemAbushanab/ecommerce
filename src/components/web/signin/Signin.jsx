@@ -13,16 +13,16 @@ function Signin({}) {
     password: "",
   };
   const navigate = useNavigate();
-  const { setUserInfo } = useContext(UserContext);
-  const { setUserToken } = useContext(CartContext);
+  const { notifyUserContext } = useContext(UserContext);
+  const { notifyCartContext } = useContext(CartContext);
   const onSubmit = (user) => {
     axios
       .post(`https://ecommerce-node4.vercel.app/auth/signin`, user)
       .then(({ data }) => {
         if (data.message == "success") {
           localStorage.setItem("userToken", data.token);
-          setUserInfo(data.token);
-          setUserToken(data.token);
+          notifyUserContext(data.token);
+          notifyCartContext(data.token);
           SuccessToast("log in sucessfully");
           navigate("/");
         } else {

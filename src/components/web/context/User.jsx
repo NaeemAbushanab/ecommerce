@@ -5,25 +5,26 @@ import { CartContext } from "./Cart";
 
 const UserContext = createContext(null);
 function UserContextProvider({ children }) {
-  const { setUserToken } = useContext(CartContext);
-  const [userInfo, setUserInfoLocal] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
-  const setUserInfo = async (userToken) => {
-    if (userToken == null) {
-      setUserInfoLocal(null);
-    } else {
+  const getUserInfo = async (userToken = localStorage.getItem("userToken")) => {
+    if (userToken != null) {
       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`, {
         headers: { Authorization: `Tariq__${userToken}` },
       });
-      setUserInfoLocal(data.user);
-      setUserToken(userToken);
+      setUserInfo(data.user);
+    } else {
+      setUserInfo(null);
     }
   };
+  const notifyUserContext = (userToken) => {
+    getUserInfo(userToken);
+  };
   useEffect(() => {
-    if (localStorage.getItem("userToken")) {
-      setUserInfo(localStorage.getItem("userToken"));
-    }
+    getUserInfo();
   }, []);
-  return <UserContext.Provider value={{ setUserInfo, userInfo }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ userInfo, notifyUserContext }}>{children}</UserContext.Provider>
+  );
 }
 export { UserContext, UserContextProvider };

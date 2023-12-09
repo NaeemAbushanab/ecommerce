@@ -7,14 +7,13 @@ import { faCartShopping, faChevronDown } from "@fortawesome/free-solid-svg-icons
 import { CartContext } from "../context/Cart";
 function Navbar() {
   const navigate = useNavigate();
-  const { userInfo, setUserInfo } = useContext(UserContext);
+  const { userInfo, notifyUserContext } = useContext(UserContext);
   const { cartItems } = useContext(CartContext);
   const handleLogout = () => {
-    setUserInfo(null);
     localStorage.removeItem("userToken");
+    notifyUserContext(null);
     navigate("/");
   };
-
   return (
     <nav>
       <div className="container">
@@ -46,11 +45,11 @@ function Navbar() {
   );
 }
 const isUserLogIn = (user, handleLogout, cartItems) => {
-  if (user) {
+  if (user != null && cartItems != null) {
     return (
       <>
         <Link to={"/cart"} className="cartIcon ">
-          <span className="cartNumber">{cartItems?.length ? cartItems?.length : 0}</span>
+          <span className="cartNumber">{cartItems.length ? cartItems.length : 0}</span>
           <i className="fs-4">
             <FontAwesomeIcon icon={faCartShopping} />
           </i>

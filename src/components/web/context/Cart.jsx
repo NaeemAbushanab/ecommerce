@@ -6,17 +6,18 @@ import { useQuery } from "react-query";
 
 const CartContext = createContext(null);
 function CartContextProvider({ children }) {
-  const [userToken, setUserInfoLocal] = useState(localStorage.getItem("userToken"));
+  const [userToken, setUserToken] = useState(null);
   const [cartItems, setCartItems] = useState(null);
   const getCartItems = async (userToken = localStorage.getItem("userToken")) => {
+    setUserToken(userToken);
     if (userToken != null) {
-       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
         headers: { Authorization: `Tariq__${userToken}` },
       });
       setCartItems(data.products);
       return data.products;
     }
-    return [];
+    // console.log(userToken);
   };
   const removeItemCart = async (productId) => {
     const { data } = await axios.patch(
@@ -42,17 +43,14 @@ function CartContextProvider({ children }) {
       removeItemCart(productId);
     }
   };
-  useEffect(() => {
-    if (userToken) {
-      getCartItems(userToken);
-    }
-  }, []);
-  const setUserToken = (userToken) => {
-    setUserInfoLocal(userToken);
+  const notifyCartContext = (userToken) => {
     getCartItems(userToken);
   };
+  useEffect(() => {
+    getCartItems();
+  }, []);
   return (
-    <CartContext.Provider value={{ cartItems, actionsItemCart, setUserToken }}>
+    <CartContext.Provider value={{ cartItems, actionsItemCart, notifyCartContext }}>
       {children}
     </CartContext.Provider>
   );
