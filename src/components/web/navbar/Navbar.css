@@ -8,8 +8,9 @@ nav {
 :not(.btn-check) + .btn:active {
   border-color: white !important;
 }
-a {
+nav a {
   color: black !important;
+  text-decoration: none;
 }
 nav .navList ul {
   list-style: none;

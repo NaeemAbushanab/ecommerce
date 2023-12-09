@@ -2,12 +2,12 @@ import React from "react";
 import "./Cart.css";
 import { useContext } from "react";
 import { CartContext } from "../context/Cart";
-import { useQuery } from "react-query";
 import LoadingScreen from "../../shared/loadingScreen/LoadingScreen";
 import EmptyContainer from "../../shared/emptyContainer/EmptyContainer";
-import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import QuantityControl from "../../shared/quantityControl/QuantityControl";
 function Cart() {
   const { cartItems, actionsItemCart } = useContext(CartContext);
   if (cartItems == null) {
@@ -38,15 +38,7 @@ function Cart() {
                     </div>
                     <div className="productInfo d-flex justify-content-between">
                       <span className="fw-bold">{item.details.finalPrice}$</span>
-                      <div className="quantity d-flex justify-content-between">
-                        <Link onClick={() => actionsItemCart(item.productId, item.quantity + 1)}>
-                          <FontAwesomeIcon icon={faPlus} />
-                        </Link>
-                        {item.quantity}
-                        <Link onClick={() => actionsItemCart(item.productId, item.quantity - 1)}>
-                          <FontAwesomeIcon icon={faMinus} />
-                        </Link>
-                      </div>
+                      <QuantityControl productId={item.productId} />
                     </div>
                   </div>
                 </div>

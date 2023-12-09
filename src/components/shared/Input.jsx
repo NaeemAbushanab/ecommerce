@@ -11,6 +11,7 @@ function Input({
   errors,
   touched,
   onBlur,
+  customStyle,
 }) {
   return (
     <div className="mb-3">
@@ -24,7 +25,7 @@ function Input({
         name={name}
         onChange={onChange}
         onSubmit={onSubmit}
-        className="form-control"
+        className={`form-control ${customStyle}`}
         onBlur={onBlur}
       />
       {touched[name] && errors[name] && <p className="text-danger">{errors[name]}</p>}

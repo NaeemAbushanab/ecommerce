@@ -6,11 +6,11 @@ import LoadingScreen from "../../shared/loadingScreen/LoadingScreen";
 import EmptyContainer from "../../shared/emptyContainer/EmptyContainer";
 import ReactStars from "react-rating-star-with-type";
 import { CartContext } from "../context/Cart";
+import QuantityControl from "../../shared/quantityControl/QuantityControl";
 
 function Product() {
   const { proID } = useParams();
   let [currImg, setCurrImg] = useState("");
-  // const { handleAddToCartContext } = useContext(CartContext);
   const getData = () =>
     axios.get(`${import.meta.env.VITE_API_URL}/products/${proID}`).then(({ data }) => {
       setCurrImg(data.product.mainImage.secure_url);
@@ -20,9 +20,6 @@ function Product() {
 
   const handleChangeImg = (e) => {
     setCurrImg(e.target.src);
-  };
-  const handleAddToCart = () => {
-    // handleAddToCartContext(proID);
   };
 
   if (isLoading) {
@@ -85,10 +82,8 @@ function Product() {
             </p>
           </div>
           <div className="d-flex justify-content-center">
-            <button className="btn btn-primary me-5" onClick={handleAddToCart}>
-              Add to cart
-            </button>
-            <button className="btn btn-info">Buy now</button>
+            <QuantityControl productId={data._id} buttonTitle={"Add to Cart"} />
+            <button className="btn btn-info ms-5">Buy now</button>
           </div>
         </div>
       </div>

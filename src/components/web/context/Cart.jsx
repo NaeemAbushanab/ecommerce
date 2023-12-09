@@ -6,13 +6,17 @@ import { useQuery } from "react-query";
 
 const CartContext = createContext(null);
 function CartContextProvider({ children }) {
-  const userToken = localStorage.getItem("userToken");
+  const [userToken, setUserInfoLocal] = useState(localStorage.getItem("userToken"));
   const [cartItems, setCartItems] = useState(null);
-  const getCartItems = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-      headers: { Authorization: `Tariq__${userToken}` },
-    });
-    setCartItems(data.products);
+  const getCartItems = async (userToken = localStorage.getItem("userToken")) => {
+    if (userToken != null) {
+       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+        headers: { Authorization: `Tariq__${userToken}` },
+      });
+      setCartItems(data.products);
+      return data.products;
+    }
+    return [];
   };
   const removeItemCart = async (productId) => {
     const { data } = await axios.patch(
@@ -22,7 +26,6 @@ function CartContextProvider({ children }) {
         headers: { Authorization: `Tariq__${userToken}` },
       }
     );
-
     getCartItems();
   };
   const actionsItemCart = async (productId, quantity) => {
@@ -31,7 +34,7 @@ function CartContextProvider({ children }) {
         `${import.meta.env.VITE_API_URL}/cart`,
         { productId, quantity },
         {
-          headers: { Authorization: `Tariq__${userToken}` },
+          headers: { Authorization: `Tariq__${localStorage.getItem("userToken")}` },
         }
       );
       getCartItems();
@@ -40,10 +43,18 @@ function CartContextProvider({ children }) {
     }
   };
   useEffect(() => {
-    getCartItems();
+    if (userToken) {
+      getCartItems(userToken);
+    }
   }, []);
+  const setUserToken = (userToken) => {
+    setUserInfoLocal(userToken);
+    getCartItems(userToken);
+  };
   return (
-    <CartContext.Provider value={{ cartItems, actionsItemCart }}>{children}</CartContext.Provider>
+    <CartContext.Provider value={{ cartItems, actionsItemCart, setUserToken }}>
+      {children}
+    </CartContext.Provider>
   );
 }
 export { CartContext, CartContextProvider };

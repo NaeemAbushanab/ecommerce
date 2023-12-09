@@ -37,7 +37,7 @@ function Navbar() {
           </div>
           <div className="col-2 navAccount  d-flex justify-content-center">
             <div className="dropdown d-flex justify-content-around align-items-center">
-              {isUserLogIn(userInfo, handleLogout, cartItems?.length)}
+              {isUserLogIn(userInfo, handleLogout, cartItems)}
             </div>
           </div>
         </div>
@@ -45,12 +45,12 @@ function Navbar() {
     </nav>
   );
 }
-const isUserLogIn = (user, handleLogout, cartItemsLength) => {
-  if (user != null) {
+const isUserLogIn = (user, handleLogout, cartItems) => {
+  if (user) {
     return (
       <>
         <Link to={"/cart"} className="cartIcon ">
-          <span className="cartNumber">{cartItemsLength ? cartItemsLength : 0}</span>
+          <span className="cartNumber">{cartItems?.length ? cartItems?.length : 0}</span>
           <i className="fs-4">
             <FontAwesomeIcon icon={faCartShopping} />
           </i>

@@ -4,9 +4,9 @@ import { useFormik } from "formik";
 import { signinSchema } from "../validation/auth";
 import axios from "axios";
 import { ErrorToast, SuccessToast, WarningToast } from "../../shared/Toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/User";
-import { jwtDecode } from "jwt-decode";
+import { CartContext } from "../context/Cart";
 function Signin({}) {
   const initialValues = {
     email: "",
@@ -14,6 +14,7 @@ function Signin({}) {
   };
   const navigate = useNavigate();
   const { setUserInfo } = useContext(UserContext);
+  const { setUserToken } = useContext(CartContext);
   const onSubmit = (user) => {
     axios
       .post(`https://ecommerce-node4.vercel.app/auth/signin`, user)
@@ -21,6 +22,7 @@ function Signin({}) {
         if (data.message == "success") {
           localStorage.setItem("userToken", data.token);
           setUserInfo(data.token);
+          setUserToken(data.token);
           SuccessToast("log in sucessfully");
           navigate("/");
         } else {
@@ -71,6 +73,18 @@ function Signin({}) {
           </button>
         </div>
       </form>
+      <div className="d-flex mt-4 column-gap-5">
+        <div>
+          <Link to={"/sendCode"} className="text-reset">
+            Forgot password?
+          </Link>
+        </div>
+        <div>
+          <Link to={"/register"} className="text-reset">
+            Register
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,13 @@
 import axios from "axios";
+import { useContext } from "react";
 import { createContext, useEffect, useState } from "react";
+import { CartContext } from "./Cart";
 
 const UserContext = createContext(null);
 function UserContextProvider({ children }) {
+  const { setUserToken } = useContext(CartContext);
   const [userInfo, setUserInfoLocal] = useState(null);
+
   const setUserInfo = async (userToken) => {
     if (userToken == null) {
       setUserInfoLocal(null);
@@ -12,6 +16,7 @@ function UserContextProvider({ children }) {
         headers: { Authorization: `Tariq__${userToken}` },
       });
       setUserInfoLocal(data.user);
+      setUserToken(userToken);
     }
   };
   useEffect(() => {

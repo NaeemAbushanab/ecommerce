@@ -6,6 +6,8 @@ import "./ProductCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { CartContext } from "../context/Cart";
+import QuantityControl from "../../shared/quantityControl/QuantityControl";
+import { useState } from "react";
 
 function ProductCard({
   mainImage,
@@ -17,9 +19,14 @@ function ProductCard({
   discount,
   _id,
   number_sellers,
-  quantity,
 }) {
-  const { actionsItemCart } = useContext(CartContext);
+  const { cartItems } = useContext(CartContext);
+  let isAddedToCart = { message: false, quantity: 1 };
+  cartItems?.map((cartItem) => {
+    if (cartItem.productId == _id) {
+      isAddedToCart = { message: true, quantity: cartItem.quantity };
+    }
+  });
   return (
     <div className="card" style={{ width: "18rem" }}>
       <Link to={`/product/${_id}`}>
@@ -30,12 +37,7 @@ function ProductCard({
       </Link>
       <div className="card-body text-center">
         <div className="text-start d-flex justify-content-between">
-          <button
-            onClick={() => actionsItemCart(_id, 1)}
-            className="btn btn-primary d-flex justify-content-center align-items-center"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </button>
+          <QuantityControl productId={_id}  isAdded={isAddedToCart} />
           <div className="d-flex align-items-center">
             <ReactStars
               value={ratingNumbers}
