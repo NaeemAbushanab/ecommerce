@@ -68,7 +68,7 @@ const isUserLogIn = (user, handleLogout, cartItems) => {
         </button>
         <ul className="dropdown-menu">
           <li>
-            <Link to={"/"} className="dropdown-item">
+            <Link to={"/profile"} className="dropdown-item">
               Profile
             </Link>
           </li>

@@ -17,7 +17,6 @@ function CartContextProvider({ children }) {
       setCartItems(data.products);
       return data.products;
     }
-    // console.log(userToken);
   };
   const removeItemCart = async (productId) => {
     const { data } = await axios.patch(

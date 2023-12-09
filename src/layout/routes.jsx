@@ -12,6 +12,7 @@ import Product from "../components/web/products/Product.jsx";
 import Cart from "../components/web/cart/Cart.jsx";
 import ForgotPassword from "../components/web/forgotPassword/ForgotPassword.jsx";
 import SendCode from "../components/web/forgotPassword/SendCode.jsx";
+import Profile from "../components/web/profile/Profile.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "forgotPassword",
         element: <ForgotPassword />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },
