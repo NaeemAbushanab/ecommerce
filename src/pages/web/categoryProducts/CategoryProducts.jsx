@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
 import EmptyContainer from "../../../components/emptyContainer/EmptyContainer";
-import ProductsViewer from "../../../components/ProductsViewer/ProductsViewer";
+import ProductsViewer from "../../../components/productsViewer/ProductsViewer";
 import LoadingScreen from "../../../components/loadingScreen/LoadingScreen";
 import { CartContext } from "../../../context/Cart";
 import { UserContext } from "../../../context/User";
