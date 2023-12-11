@@ -10,6 +10,8 @@ import Profile from "../pages/web/profile/Profile.jsx";
 import CategoryProducts from "../pages/web/categoryProducts/CategoryProducts.jsx";
 import ForgotPassword from "../pages/auth/forgotPassword/ForgotPassword.jsx";
 import SendCode from "../pages/auth/sendCode/SendCode.jsx";
+import Order from "../pages/web/order/Order.jsx";
+import { OrderContextProvider } from "../context/Order.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -45,6 +47,14 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "order",
+        element: (
+          <OrderContextProvider>
+            <Order />
+          </OrderContextProvider>
+        ),
       },
     ],
   },

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "react-query";
-import CategoriesSwiper from "../../../components/CategoriesSwiper/CategoriesSwiper.jsx";
 import LoadingScreen from "../../../components/loadingScreen/LoadingScreen.jsx";
+import ProductsSwiper from "../../../components/productsSwiper/ProductsSwiper.jsx";
 function Categories() {
   let getMainCategories = async () => {
     const { data } = await axios.get(
@@ -24,7 +24,7 @@ function Categories() {
       </div>
       <div>
         <h3 className="mb-5 border-0 border-bottom d-inline-block">Main categories</h3>
-        <CategoriesSwiper data={data} />
+        <ProductsSwiper data={data} />
       </div>
     </div>
   );

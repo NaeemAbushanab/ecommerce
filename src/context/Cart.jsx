@@ -110,7 +110,7 @@ function CartContextProvider({ children }) {
     }
     getCartItems();
   };
-  const notifyCartContext = (userToken) => {
+  const notifyCartContext = (userToken = localStorage.getItem("userToken")) => {
     setIsLoading(true);
     getCartItems(userToken);
   };
