@@ -1,13 +1,13 @@
 import React from "react";
-import Navbar from "../components/web/navbar/Navbar.jsx";
-import Footer from "../components/web/footer/Footer.jsx";
 import { Outlet } from "react-router-dom";
-import DividerSection from "../components/shared/dividerSection/DividerSection.jsx";
+import Navbar from "../components/navbar/Navbar.jsx";
+import Footer from "../components/footer/Footer.jsx";
+import DividerSection from "../components/dividerSection/DividerSection.jsx";
 function Layout() {
   return (
     <div>
       <Navbar />
-      <div className="container py-3">
+      <div className="container py-5">
         <Outlet />
       </div>
       <DividerSection />

@@ -1,0 +1,9 @@
+.cart .prodctImg {
+  width: 150px;
+  height: 150px;
+}
+
+.cart .prodctImg img {
+  height: 150px;
+  object-fit: contain;
+}
