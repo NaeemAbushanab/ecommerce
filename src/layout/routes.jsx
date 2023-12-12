@@ -13,7 +13,7 @@ import SendCode from "../pages/auth/sendCode/SendCode.jsx";
 import Order from "../pages/web/order/Order.jsx";
 import { OrderContextProvider } from "../context/Order.jsx";
 import AccountDetails from "../pages/web/accountDetails/AccountDetails.jsx";
-import Orders from "../pages/web/Orders/Orders.jsx";
+import Orders from "../pages/web/orders/Orders.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
