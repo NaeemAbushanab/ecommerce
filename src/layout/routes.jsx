@@ -14,7 +14,7 @@ import Order from "../pages/web/order/Order.jsx";
 import { OrderContextProvider } from "../context/Order.jsx";
 import AccountDetails from "../pages/web/accountDetails/AccountDetails.jsx";
 import Orders from "../pages/web/orders/Orders.jsx";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
+import ProtectedRoute from "../protectedRoute/ProtectedRoute.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
