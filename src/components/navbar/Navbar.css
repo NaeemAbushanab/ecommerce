@@ -46,3 +46,10 @@ nav .cartIcon .cartNumber {
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
 }
+.dropdown-menu {
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+}
