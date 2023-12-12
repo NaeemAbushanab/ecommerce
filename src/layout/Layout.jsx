@@ -3,16 +3,17 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar.jsx";
 import Footer from "../components/footer/Footer.jsx";
 import DividerSection from "../components/dividerSection/DividerSection.jsx";
+import LoadingScreen from "../components/loadingScreen/LoadingScreen.jsx";
 function Layout() {
   return (
-    <div>
+    <>
       <Navbar />
       <div className="container py-5">
         <Outlet />
       </div>
       <DividerSection />
       <Footer />
-    </div>
+    </>
   );
 }
 

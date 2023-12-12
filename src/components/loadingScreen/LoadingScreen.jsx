@@ -1,7 +1,6 @@
-import React from "react";
 import ReactLoading from "react-loading";
 import "./LoadingScreen.css";
-function LoadingScreen({ children, isLoading }) {
+function LoadingScreen({ children, isLoading = false }) {
   if (isLoading) {
     return (
       <>

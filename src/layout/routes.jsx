@@ -12,6 +12,8 @@ import ForgotPassword from "../pages/auth/forgotPassword/ForgotPassword.jsx";
 import SendCode from "../pages/auth/sendCode/SendCode.jsx";
 import Order from "../pages/web/order/Order.jsx";
 import { OrderContextProvider } from "../context/Order.jsx";
+import AccountDetails from "../pages/web/accountDetails/AccountDetails.jsx";
+import Orders from "../pages/web/Orders/Orders.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -46,7 +48,21 @@ export const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <OrderContextProvider>
+            <Profile />
+          </OrderContextProvider>
+        ),
+        children: [
+          {
+            index: true,
+            element: <AccountDetails />,
+          },
+          {
+            path: "orders",
+            element: <Orders />,
+          },
+        ],
       },
       {
         path: "order",

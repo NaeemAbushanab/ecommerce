@@ -4,6 +4,7 @@ body {
   color: #69707a;
 }
 .img-account-profile {
+  width: 25%;
 }
 .rounded-circle {
   border-radius: 50% !important;
