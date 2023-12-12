@@ -20,7 +20,7 @@ function Register() {
     formData.append("password", user.password);
     formData.append("image", user.image);
     axios
-      .post(`https://ecommerce-node4.vercel.app/auth/signup`, formData)
+      .post(`${import.meta.env.VITE_API_URL}/auth/signup`, formData)
       .then(({ data }) => {
         if (data.message == "success") {
           SuccessToast(`${data.message}, please go to your email to confirm`);

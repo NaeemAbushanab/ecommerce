@@ -11,13 +11,15 @@ import ProductsSwiper from "../../../components/productsSwiper/ProductsSwiper";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EmptyContainer from "../../../components/emptyContainer/EmptyContainer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Order() {
   const { cartItems, isLoadingCart } = useContext(CartContext);
   const { notifyCartContext } = useContext(CartContext);
+  const { notifyOrderContext } = useContext(OrderContext);
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [displayFloatingWindow, setDisplayFloatingWindow] = useState(true);
+  const navigate = useNavigate();
   const handleSaveInfo = async (e) => {
     e.preventDefault();
     setDisplayFloatingWindow(false);
@@ -43,7 +45,8 @@ function Order() {
           }
         );
         notifyCartContext();
-        console.log(data);
+        notifyOrderContext();
+        navigate("/profile/orders");
       } catch (error) {
         ErrorToast(error.response.data.message);
       }

@@ -14,13 +14,28 @@ import Order from "../pages/web/order/Order.jsx";
 import { OrderContextProvider } from "../context/Order.jsx";
 import AccountDetails from "../pages/web/accountDetails/AccountDetails.jsx";
 import Orders from "../pages/web/orders/Orders.jsx";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <WebLayout />,
     children: [
-      { path: "register", element: <Register /> },
-      { path: "login", element: <Login /> },
+      {
+        path: "register",
+        element: (
+          <ProtectedRoute auth={false}>
+            <Register />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "login",
+        element: (
+          <ProtectedRoute auth={false}>
+            <Login />
+          </ProtectedRoute>
+        ),
+      },
       { index: true, element: <Home /> },
       {
         path: "categories",
@@ -36,40 +51,64 @@ export const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Cart />,
+        element: (
+          <ProtectedRoute auth={true}>
+            <Cart />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "sendCode",
-        element: <SendCode />,
+        element: (
+          <ProtectedRoute auth={false}>
+            <SendCode />,
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: "forgotPassword",
+            element: <ForgotPassword />,
+          },
+        ],
       },
-      {
-        path: "forgotPassword",
-        element: <ForgotPassword />,
-      },
+
       {
         path: "profile",
         element: (
-          <OrderContextProvider>
-            <Profile />
-          </OrderContextProvider>
+          <ProtectedRoute auth={true}>
+            <OrderContextProvider>
+              <Profile />
+            </OrderContextProvider>
+          </ProtectedRoute>
         ),
         children: [
           {
             index: true,
-            element: <AccountDetails />,
+
+            element: (
+              <ProtectedRoute auth={true}>
+                <AccountDetails />,
+              </ProtectedRoute>
+            ),
           },
           {
             path: "orders",
-            element: <Orders />,
+            element: (
+              <ProtectedRoute auth={true}>
+                <Orders />,
+              </ProtectedRoute>
+            ),
           },
         ],
       },
       {
         path: "order",
         element: (
-          <OrderContextProvider>
-            <Order />
-          </OrderContextProvider>
+          <ProtectedRoute auth={true}>
+            <OrderContextProvider>
+              <Order />
+            </OrderContextProvider>
+          </ProtectedRoute>
         ),
       },
     ],

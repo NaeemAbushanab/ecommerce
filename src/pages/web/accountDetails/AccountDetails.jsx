@@ -1,21 +1,16 @@
 import React, { useContext } from "react";
-import { UserContext } from "../../../context/User";
-import LoadingScreen from "../../../components/loadingScreen/LoadingScreen";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../context/User";
 
 function AccountDetails() {
-  const { userInfo, isLoadingUser } = useContext(UserContext);
-  if (isLoadingUser) {
-    return "";
-  }
-
+  const { userInfo } = useContext(UserContext);
   return (
     <>
       <div className="card-body d-flex align-items-center justify-content-between">
         <img
           className="img-account-profile rounded-circle border border-light-subtle mb-2"
           src={userInfo.image.secure_url}
-          alt
+          alt={userInfo.userName}
         />
         <button className="btn btn-primary" type="button" disabled>
           Upload new image

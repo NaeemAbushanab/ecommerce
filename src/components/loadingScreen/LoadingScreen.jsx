@@ -6,7 +6,7 @@ function LoadingScreen({ children, isLoading = true, displayWithChildren = false
       <>
         <div className={`${displayWithChildren && "floatingLoading"} py-5`}>
           <i>
-            <ReactLoading type="spin" width={50} height={50} color="black" className="m-auto" />
+            <ReactLoading type="spin" width={50} height={50} color="#0d6efd" className="m-auto" />
           </i>
         </div>
         {displayWithChildren && children}

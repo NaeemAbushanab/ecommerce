@@ -57,7 +57,7 @@ function CartContextProvider({ children }) {
         }
       );
     } catch (error) {
-      WarningToast(error.response.data.message);
+      ErrorToast(error.response.data.message);
     } finally {
       getCartItems();
     }

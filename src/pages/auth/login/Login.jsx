@@ -18,7 +18,7 @@ function Login() {
   };
   const onSubmit = async (user) => {
     await axios
-      .post(`https://ecommerce-node4.vercel.app/auth/signin`, user)
+      .post(`${import.meta.env.VITE_API_URL}/auth/signin`, user)
       .catch((error) => {
         ErrorToast(error.response.data.message);
       })

@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 function Orders() {
-  const { data, isLoading } = useContext(OrderContext);
-  if (isLoading) {
+  const { ordersData, isLoadingOrders } = useContext(OrderContext);
+  if (isLoadingOrders) {
     return <LoadingScreen isLoading={true} />;
   }
   return (
@@ -22,7 +22,7 @@ function Orders() {
           </tr>
         </thead>
         <tbody>
-          {data.map((order, i) => {
+          {ordersData.map((order, i) => {
             let date = new Date(order.createdAt);
             return (
               <tr key={i}>
