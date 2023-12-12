@@ -35,7 +35,7 @@ function Cart() {
     navigate("/order");
   };
   return (
-    <LoadingScreen isLoading={isLoadingCart}>
+    <LoadingScreen isLoading={isLoadingCart} displayWithChildren={true}>
       <div className="cart">
         <div className="row">
           <div className="col-9 ps-3 pe-5">

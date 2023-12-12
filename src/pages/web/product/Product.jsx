@@ -31,7 +31,7 @@ function Product() {
     return <EmptyContainer title={"Details is not found"} />;
   }
   return (
-    <LoadingScreen isLoading={!isLoadingUser && isLoadingCart}>
+    <LoadingScreen isLoading={!isLoadingUser && isLoadingCart} displayWithChildren={true}>
       <div className="row ">
         <div className="col-5">
           <div className="row">

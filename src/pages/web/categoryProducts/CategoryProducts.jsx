@@ -29,7 +29,7 @@ function CategoryProducts() {
     }
 
     return (
-      <LoadingScreen>
+      <LoadingScreen isLoading={!isLoadingUser && isLoadingCart} displayWithChildren={true}>
         <ProductsViewer data={data} />
       </LoadingScreen>
     );
