@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../../context/Cart";
 import axios from "axios";
 import { useFormik } from "formik";
-import { signinSchema } from "../../../validation/auth";
+import { loginSchema } from "../../../validation/auth";
 import { UserContext } from "../../../context/User";
 import Input from "../../../components/input/Input";
 import { ErrorToast, SuccessToast, WarningToast } from "../../../components/toast/Toast";
@@ -35,7 +35,8 @@ function Login() {
   const formik = useFormik({
     initialValues,
     onSubmit,
-    validationSchema: signinSchema,
+    validationSchema: loginSchema,
+    validateOnMount: true,
   });
   const inputs = [
     { id: "email", name: "email", type: "email", title: "Email", value: formik.values.email },
@@ -57,6 +58,7 @@ function Login() {
           errors={formik.errors}
           onBlur={formik.handleBlur}
           touched={formik.touched}
+          errorsDisplay={true}
         />
       );
     });
@@ -67,7 +69,11 @@ function Login() {
       <form className="form" onSubmit={formik.handleSubmit}>
         {renderInput()}
         <div className="text-center">
-          <button type="submit" className="form-control btn btn-primary" disabled={!formik.isValid}>
+          <button
+            type="submit"
+            className="form-control btn btn-primary "
+            disabled={!formik.isValid}
+          >
             Sign in
           </button>
         </div>

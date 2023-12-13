@@ -39,6 +39,7 @@ function Register() {
     initialValues,
     onSubmit,
     validationSchema: registerSchema,
+    validateOnMount: true,
   });
   const inputs = [
     {
@@ -74,6 +75,7 @@ function Register() {
           errors={formik.errors}
           onBlur={formik.handleBlur}
           touched={formik.touched}
+          errorsDisplay={true}
         />
       );
     });

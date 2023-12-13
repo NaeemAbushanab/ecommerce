@@ -64,14 +64,11 @@ export const router = createBrowserRouter([
             <SendCode />
           </ProtectedRoute>
         ),
-        children: [
-          {
-            path: "forgotPassword",
-            element: <ForgotPassword />,
-          },
-        ],
       },
-
+      {
+        path: "forgotPassword",
+        element: <ForgotPassword />,
+      },
       {
         path: "profile",
         element: (

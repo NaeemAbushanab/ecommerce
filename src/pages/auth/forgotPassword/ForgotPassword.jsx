@@ -1,26 +1,16 @@
 import React from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/input/Input";
-
+import { forgotPasswordSchema } from "../../../validation/auth";
 function ForgotPassword() {
   const navigate = useNavigate();
-  let emailSchema = () => {
-    return yup.object({
-      email: yup.string().required("email is required").email(),
-      password: yup
-        .string()
-        .required("password is required")
-        .min(3, "must be at least 3 char")
-        .max(30, "max is 30 char"),
-      code: yup.string().required("code is required").length(4, "must be 4 char"),
-    });
-  };
   const onSubmit = async (user) => {
-    const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/auth/forgotPassword`, user);
-    navigate("/signin");
+    try {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/auth/forgotPassword`, user);
+      navigate("/signin");
+    } catch (error) {}
   };
   const initialValues = {
     email: "",
@@ -29,8 +19,9 @@ function ForgotPassword() {
   };
   const formik = useFormik({
     initialValues,
-    validationSchema: emailSchema,
+    validationSchema: forgotPasswordSchema,
     onSubmit,
+    validateOnMount: true,
   });
   let inputs = [
     { id: "email", name: "email", type: "email", title: "Email", value: formik.values.email },
@@ -59,6 +50,7 @@ function ForgotPassword() {
           errors={formik.errors}
           onBlur={formik.handleBlur}
           touched={formik.touched}
+          errorsDisplay={true}
         />
       );
     });

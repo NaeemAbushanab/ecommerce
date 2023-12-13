@@ -1,25 +1,21 @@
 import React from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Input from "../../../components/input/Input";
+import { sendCodeSchema } from "../../../validation/auth";
 
 function SendCode() {
   const navigate = useNavigate();
-  let emailSchema = () => {
-    return yup.object({
-      email: yup.string().required("email is required").email(),
-    });
-  };
   const onSubmit = async ({ email }) => {
     const { data } = await axios.patch(`${import.meta.env.VITE_API_URL}/auth/sendcode`, { email });
     navigate("/forgotPassword");
   };
   const formik = useFormik({
     initialValues: { email: "" },
-    validationSchema: emailSchema,
+    validationSchema: sendCodeSchema,
     onSubmit,
+    validateOnMount: true,
   });
   let inputs = [
     { id: "email", name: "email", type: "email", title: "Email", value: formik.values.email },
@@ -34,6 +30,7 @@ function SendCode() {
           errors={formik.errors}
           onBlur={formik.handleBlur}
           touched={formik.touched}
+          errorsDisplay={true}
         />
       );
     });
