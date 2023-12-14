@@ -99,7 +99,7 @@ function Navbar() {
                 <Link to={"/categories"}>Categories</Link>
               </li>
               <li>
-                <Link to={"/"}>Products</Link>
+                <Link to={"/products"}>Products</Link>
               </li>
             </ul>
           </div>

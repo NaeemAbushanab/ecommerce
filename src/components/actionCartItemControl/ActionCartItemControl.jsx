@@ -30,10 +30,9 @@ function ActionCartItemControl({ productId, buttonTitle = <FontAwesomeIcon icon=
         </div>
       );
     } else {
-      if (quantity == 1 && action == "decrase") {
+      if (action == "decrase" && quantity == 1) {
         actionsItemCart(productId, "remove");
-      }
-      actionsItemCart(productId, action);
+      } else actionsItemCart(productId, action);
     }
   };
   if (!isAdded) {

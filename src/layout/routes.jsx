@@ -15,6 +15,7 @@ import { OrderContextProvider } from "../context/Order.jsx";
 import AccountDetails from "../pages/web/accountDetails/AccountDetails.jsx";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute.jsx";
 import Orders from "../pages/web/orders/Orders.jsx";
+import Products from "../pages/web/products/Products.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
             </OrderContextProvider>
           </ProtectedRoute>
         ),
+      },
+      {
+        path: "products",
+        element: <Products />,
       },
     ],
   },

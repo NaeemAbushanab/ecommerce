@@ -35,8 +35,8 @@ function ProductCard({
           <h5 className="card-title text-dark">{name}</h5>
         </div>
       </Link>
-      <div className="card-body text-center">
-        <div className="text-start d-flex justify-content-between">
+      <div className="card-body d-flex align-items-end">
+        <div className="d-flex justify-content-between flex-grow-1">
           <ActionCartItemControl productId={_id} isAdded={isAddedToCart} />
           <div className="d-flex align-items-center">
             <ReactStars

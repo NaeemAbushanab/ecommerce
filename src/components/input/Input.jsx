@@ -10,13 +10,15 @@ function Input({
   onSubmit,
   errors,
   touched,
+  placeholder,
   onBlur,
   customStyleInput,
   customStyleLabel,
+  customStyleDivFather,
   errorsDisplay = false,
 }) {
   return (
-    <div className="mb-3">
+    <div className={`${customStyleDivFather}`}>
       <label htmlFor={id} className={`lable-control ${customStyleLabel}`}>
         {title}
       </label>
@@ -29,6 +31,7 @@ function Input({
         onSubmit={onSubmit}
         className={`form-control  ${customStyleInput}`}
         onBlur={onBlur}
+        placeholder={placeholder}
       />
       {errorsDisplay
         ? touched[name] && errors[name] && <p className="text-danger">{errors[name]}</p>

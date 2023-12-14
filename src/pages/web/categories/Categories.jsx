@@ -6,10 +6,7 @@ import ProductsSwiper from "../../../components/productsSwiper/ProductsSwiper.js
 function Categories() {
   let getMainCategories = async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/categories/active?page=1&limit=10`,
-      {
-        headers: { Authorization: `Tariq__${localStorage.getItem("userToken")}` },
-      }
+      `${import.meta.env.VITE_API_URL}/categories/active?page=1&limit=10`
     );
     return data.categories;
   };
