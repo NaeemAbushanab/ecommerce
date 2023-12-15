@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { ErrorToast} from "../../../components/toast/Toast";
+import { ErrorToast } from "../../../components/toast/Toast";
 import LoadingScreen from "../../../components/loadingScreen/LoadingScreen";
 import { CartContext } from "../../../context/Cart";
 import ProductsViewer from "../../../components/productsViewer/ProductsViewer";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Products.css";
 import EmptyContainer from "../../../components/emptyContainer/EmptyContainer";
 import { UserContext } from "../../../context/User";
@@ -45,7 +45,7 @@ function Products() {
   useEffect(() => {
     let _params = {};
     for (let p of urlParams) {
-      if (p[0] != "sort") _params[p[0]] = Number(p[1]);
+      if (p[0] != "sort" && p[0] != "search") _params[p[0]] = Number(p[1]);
       else _params[p[0]] = p[1];
     }
     setData({
@@ -83,6 +83,7 @@ const initialParams = {
   page: 1,
   limit: 4,
   sort: "",
+  search: "",
   "price[lte]": "",
   "price[gte]": "",
 };

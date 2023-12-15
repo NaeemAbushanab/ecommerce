@@ -13,18 +13,16 @@ function FilterProducts({ params, setParams, setData, totalPages, sortOptions, i
     e.preventDefault();
     let gte = params["price[gte]"];
     let lte = params["price[lte]"];
-    if (gte != "" || lte != "") {
-      if (gte < 0 || lte < 0) {
-        WarningToast("can't accept filter by price less than 1");
-      } else if (gte > lte && lte != "" && gte != "") {
-        WarningToast("min price is greater then max price");
-      } else
-        setData({
-          ...params,
-          "price[gte]": gte,
-          "price[lte]": lte,
-        });
-    }
+    if (gte < 0 || lte < 0) {
+      WarningToast("can't accept filter by price less than 1");
+    } else if (gte > lte && lte != "" && gte != "") {
+      WarningToast("min price is greater then max price");
+    } else
+      setData({
+        ...params,
+        "price[gte]": gte,
+        "price[lte]": lte,
+      });
   };
   const handleChangeSelectDisplayInput = (e) => {
     setData({
@@ -37,6 +35,12 @@ function FilterProducts({ params, setParams, setData, totalPages, sortOptions, i
     let sortOption = e.target.value;
     if (sortOption == "default") sortOption = "";
     setData({ ...params, sort: sortOption });
+  };
+  const handleChangeSearchInput = (e) => {
+    setParams({
+      ...params,
+      search: e.target.value,
+    });
   };
   return (
     <div className="mb-5 filterData d-flex align-items-center column-gap-4">
@@ -106,6 +110,17 @@ function FilterProducts({ params, setParams, setData, totalPages, sortOptions, i
           }}
         >
           Reset all inputs
+        </button>
+      </form>
+      <form className="d-flex align-items-end" onSubmit={() => setData(params)}>
+        <Input
+          value={params.search}
+          name={"search"}
+          placeholder={"Search"}
+          onChange={handleChangeSearchInput}
+        />
+        <button className="btn btn-outline-primary ms-2" type="submit">
+          Search
         </button>
       </form>
     </div>
