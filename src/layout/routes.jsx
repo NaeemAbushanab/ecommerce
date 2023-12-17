@@ -13,9 +13,9 @@ import SendCode from "../pages/auth/sendCode/SendCode.jsx";
 import Order from "../pages/web/order/Order.jsx";
 import { OrderContextProvider } from "../context/Order.jsx";
 import AccountDetails from "../pages/web/accountDetails/AccountDetails.jsx";
-import ProtectedRoute from "../protectedRoute/ProtectedRoute.jsx";
 import Orders from "../pages/web/orders/Orders.jsx";
 import Products from "../pages/web/products/Products.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -48,7 +48,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "product/:proID",
-        element: <Product />,
+        element: (
+          <OrderContextProvider>
+            <Product />
+          </OrderContextProvider>
+        ),
       },
       {
         path: "cart",

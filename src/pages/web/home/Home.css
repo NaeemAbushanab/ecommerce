@@ -1,0 +1,16 @@
+.home .list-group-item:hover {
+  background-color: rgb(219, 219, 219);
+  cursor: pointer;
+}
+.home .cancel {
+  box-sizing: border-box;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+.home .cancel:hover {
+  background-color: rgb(220, 220, 220);
+}
