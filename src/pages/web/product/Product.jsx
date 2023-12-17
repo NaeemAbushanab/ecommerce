@@ -14,14 +14,15 @@ function Product() {
   const { proID } = useParams();
   let [currImg, setCurrImg] = useState("");
   const { isLoadingCart } = useContext(CartContext);
-  const { isLoadingUser } = useContext(UserContext);
+  const { isLoadingUser, userInfo } = useContext(UserContext);
   const { ordersData, isLoadingOrders } = useContext(OrderContext);
-  const [review, setReview] = useState({ comment: "", rating: 2.5 });
+  const [review, setReview] = useState({ comment: "", rating: 0 });
   const [canReview, setCanReview] = useState(false);
+  const [isReviewed, setIsReviewed] = useState(false);
   if (!isLoadingOrders) {
     ordersData.map((order) => {
       order.products.map((product) => {
-        if (product.productId == proID && canReview != true) {
+        if (order.status == "deliverd" && product.productId == proID && canReview == false) {
           setCanReview(true);
           return;
         }
@@ -53,7 +54,9 @@ function Product() {
         .catch((error) => {
           ErrorToast(error.response.data.message);
         })
-        .then(({ data }) => {})
+        .then(({ data }) => {
+          setIsReviewed(true);
+        })
         .finally(() => {});
     } else WarningToast("empty comment");
   };
@@ -66,6 +69,16 @@ function Product() {
   if (data.lenght == 0) {
     return <EmptyContainer title={"Details is not found"} />;
   }
+  if (!isLoadingUser) {
+    data.reviews.map((_review) => {
+      if (_review.createdBy == userInfo?._id && isReviewed == false) {
+        setIsReviewed(true);
+        setReview({ comment: _review.comment, rating: _review.rating });
+        return;
+      }
+    });
+  }
+
   return (
     <LoadingScreen
       isLoading={isLoading || (!isLoadingUser && isLoadingCart)}
@@ -100,7 +113,7 @@ function Product() {
         </div>
         <div className="col-7">
           <div className="title">
-            <h2>{data.name}</h2>
+            <h3>{data.name}</h3>
           </div>
           <div className="d-flex column-gap-2">
             <span>{data.ratingNumbers}</span>
@@ -128,39 +141,68 @@ function Product() {
               <button className="btn btn-info ms-5">Buy now</button>
             </div>
           </div>
-          <div className="divider my-4"></div>
-          <div className="reviews">
-            <h3>Review</h3>
-            {canReview && (
-              <div>
-                <textarea
-                  onChange={handleOnChangeTextArea}
-                  type="text"
-                  name="review"
-                  id="review"
-                  className="form-control overflow-hidden"
-                  style={{ resize: "none" }}
-                  rows="1"
-                  placeholder="add your review"
+          {canReview && (
+            <div>
+              <div className="divider my-4"></div>
+              <h3>Your review</h3>
+              <textarea
+                onChange={handleOnChangeTextArea}
+                type="text"
+                name="review"
+                id="review"
+                className="form-control overflow-hidden"
+                style={{ resize: "none" }}
+                placeholder="add your review"
+                value={review.comment}
+                disabled={!isReviewed ? false : true}
+              />
+              <div className="d-flex justify-content-between">
+                <ReactStars
+                  value={review.rating}
+                  onChange={onChange}
+                  activeColor="#0d6efd"
+                  inactiveColor="#0d6efd"
+                  count={5}
+                  isEdit={isReviewed ? false : true}
+                  isHalf={true}
+                  size={24}
                 />
-                <div className="d-flex justify-content-between">
-                  <ReactStars
-                    value={review.rating}
-                    onChange={onChange}
-                    activeColor="#0d6efd"
-                    inactiveColor="#0d6efd"
-                    count={5}
-                    isEdit={true}
-                    isHalf={true}
-                    size={24}
-                  />
-                  <button className="btn btn-primary mt-3 " onClick={handleOnClickAddReview}>
-                    Add review
-                  </button>
-                </div>
+                <button
+                  className={`btn btn-primary mt-3 ${isReviewed ? "d-none" : ""}`}
+                  onClick={handleOnClickAddReview}
+                >
+                  Add review
+                </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+          {data.reviews.length > 0 && (
+            <div className="mt-3">
+              <div className="divider my-4"></div>
+              <h3>People reviews</h3>
+              <div className="d-flex flex-column mt-2">
+                {data.reviews.map((review, i) => {
+                  return (
+                    <React.Fragment key={i}>
+                      <div className="d-flex align-items-center column-gap-3 my-2">
+                        <span>{review.comment}</span>
+                        <ReactStars
+                          value={review.rating}
+                          onChange={onChange}
+                          activeColor="#0d6efd"
+                          inactiveColor="#0d6efd"
+                          count={5}
+                          isEdit={false}
+                          isHalf={true}
+                          size={15}
+                        />
+                      </div>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </LoadingScreen>
