@@ -8,11 +8,26 @@ import { CartContext } from "../../../context/Cart";
 import LoadingScreen from "../../../components/loadingScreen/LoadingScreen";
 import ActionCartItemControl from "../../../components/actionCartItemControl/ActionCartItemControl";
 import { UserContext } from "../../../context/User";
+import { ErrorToast, WarningToast } from "../../../components/toast/Toast";
+import { OrderContext } from "../../../context/Order";
 function Product() {
   const { proID } = useParams();
   let [currImg, setCurrImg] = useState("");
   const { isLoadingCart } = useContext(CartContext);
   const { isLoadingUser } = useContext(UserContext);
+  const { ordersData, isLoadingOrders } = useContext(OrderContext);
+  const [review, setReview] = useState({ comment: "", rating: 2.5 });
+  const [canReview, setCanReview] = useState(false);
+  if (!isLoadingOrders) {
+    ordersData.map((order) => {
+      order.products.map((product) => {
+        if (product.productId == proID && canReview != true) {
+          setCanReview(true);
+          return;
+        }
+      });
+    });
+  }
   const getData = () =>
     axios.get(`${import.meta.env.VITE_API_URL}/products/${proID}`).then(({ data }) => {
       setCurrImg(data.product.mainImage.secure_url);
@@ -23,7 +38,28 @@ function Product() {
   const handleChangeImg = (e) => {
     setCurrImg(e.target.src);
   };
-
+  const handleOnChangeTextArea = (e) => {
+    e.target.style.height = "inherit";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+    setReview({ ...review, comment: e.target.value });
+  };
+  const handleOnClickAddReview = async (e) => {
+    e.preventDefault();
+    if (review.comment != "") {
+      await axios
+        .post(`${import.meta.env.VITE_API_URL}/products/${proID}/review`, review, {
+          headers: { Authorization: `Tariq__${localStorage.getItem("userToken")}` },
+        })
+        .catch((error) => {
+          ErrorToast(error.response.data.message);
+        })
+        .then(({ data }) => {})
+        .finally(() => {});
+    } else WarningToast("empty comment");
+  };
+  const onChange = (value) => {
+    setReview({ ...review, rating: value });
+  };
   if (isLoading) {
     return <LoadingScreen isLoading />;
   }
@@ -31,7 +67,10 @@ function Product() {
     return <EmptyContainer title={"Details is not found"} />;
   }
   return (
-    <LoadingScreen isLoading={!isLoadingUser && isLoadingCart} displayWithChildren={true}>
+    <LoadingScreen
+      isLoading={isLoading || (!isLoadingUser && isLoadingCart)}
+      displayWithChildren={true}
+    >
       <div className="row ">
         <div className="col-5">
           <div className="row">
@@ -88,6 +127,39 @@ function Product() {
               <ActionCartItemControl productId={data._id} buttonTitle={"Add to Cart"} />
               <button className="btn btn-info ms-5">Buy now</button>
             </div>
+          </div>
+          <div className="divider my-4"></div>
+          <div className="reviews">
+            <h3>Review</h3>
+            {canReview && (
+              <div>
+                <textarea
+                  onChange={handleOnChangeTextArea}
+                  type="text"
+                  name="review"
+                  id="review"
+                  className="form-control overflow-hidden"
+                  style={{ resize: "none" }}
+                  rows="1"
+                  placeholder="add your review"
+                />
+                <div className="d-flex justify-content-between">
+                  <ReactStars
+                    value={review.rating}
+                    onChange={onChange}
+                    activeColor="#0d6efd"
+                    inactiveColor="#0d6efd"
+                    count={5}
+                    isEdit={true}
+                    isHalf={true}
+                    size={24}
+                  />
+                  <button className="btn btn-primary mt-3 " onClick={handleOnClickAddReview}>
+                    Add review
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
