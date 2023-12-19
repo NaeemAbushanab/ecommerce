@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { ErrorToast } from "../components/toast/Toast";
 
 const OrderContext = createContext(null);

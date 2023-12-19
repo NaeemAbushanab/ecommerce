@@ -71,7 +71,8 @@ function Product() {
   }
   if (!isLoadingUser) {
     data.reviews.map((_review) => {
-      if (_review.createdBy == userInfo?._id && isReviewed == false) {
+      console.log(_review);
+      if (_review.createdBy._id == userInfo?._id && isReviewed == false) {
         setIsReviewed(true);
         setReview({ comment: _review.comment, rating: _review.rating });
         return;
